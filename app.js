@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import userRoutes from "./routes/user.routes.js";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
 
 const PORT = process.env.PORT || 5000;
 
@@ -13,7 +15,7 @@ app.use("/user", userRoutes);
 
 const DATABASE_URL = process.env.DB_URI;
 
-mongoose.connect(`${DATABASE_URL}/${DB_NAME}`);
+mongoose.connect(`${DATABASE_URL}`);
 
 app.get("/", (req, res) => {
   res.send({ status: "success", message: "Server running on PORT " + PORT });

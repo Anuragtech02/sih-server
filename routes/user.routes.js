@@ -8,7 +8,6 @@ import {
   getSingleData,
 } from "../controllers/user.js";
 // import auth from "../middleware/auth.js";
-import { uploadBulkUser } from "../controllers/bulkUserExcel.js";
 const router = express.Router();
 
 // we need user token and the id for all auth routes

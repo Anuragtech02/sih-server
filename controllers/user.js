@@ -1,5 +1,5 @@
 import express from "express";
-import UserModel from "../models/student.model.js";
+import UserModel from "../models/User.model.js";
 import { v4 as uuid } from "uuid";
 
 const router = express.Router();
