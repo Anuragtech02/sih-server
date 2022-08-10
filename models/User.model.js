@@ -4,18 +4,21 @@ const UserSchema = new mongoose.Schema(
   {
     _id: { type: String, required: true },
     name: { type: String, required: true },
-    email: { type: String, required: true },
-    password: { type: String, required: true },
-    avatar: { type: String, required: true },
+    contact: { type: String, required: true },
+    gender: { type: String, required: true },
+    pibs: { type: String, required: true },
+    interests: { type: Array, required: false },
+    avatar: { type: String, required: true }, // CDN Img URI
     userType: { type: String, required: true },
+    savedArticles: { type: Array, required: false }, // array of articleIds
+    rewards: { type: Array, required: false },
+    rewardPoints: { type: Number, required: false }, // number of rewardPoints
     createdAt: {
       type: String,
-      required: true,
       default: new Date().toISOString(),
     },
     updatedAt: {
       type: String,
-      required: true,
       default: new Date().toISOString(),
     },
   },
