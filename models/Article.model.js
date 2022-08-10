@@ -6,10 +6,10 @@ const ArticleSchema = new mongoose.Schema({
   slug: { type: String, required: true }, // slug is the url friendly version of the title
   content: { type: String, required: true }, // HTMLString, comes from the editor
   thumbnail: { type: String, required: true }, // CDN URI
-  views: { type: Number, required: true }, // number of views
-  likes: { type: Number, required: true }, // number of likes
-  shares: { type: Number, required: true }, // number of shares
-  savedBy: { type: Array, required: true }, // array of userIds
+  views: { type: Number, required: false }, // number of views
+  likes: { type: Number, required: false }, // number of likes
+  shares: { type: Number, required: false }, // number of shares
+  savedBy: { type: Array, required: false }, // array of userIds
   categories: { type: Array, required: true },
   createdBy: {
     id: { type: String, required: true },
