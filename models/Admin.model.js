@@ -8,8 +8,8 @@ const UserSchema = new mongoose.Schema(
     password: { type: String, required: true },
     avatar: { type: String, required: true },
     userType: { type: String, required: true }, // admin
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
+    createdAt: { type: String, default: new Date().toISOString() },
+    updatedAt: { type: String, default: new Date().toISOString() },
   },
   { collection: "users" }
 );

@@ -7,9 +7,9 @@ const ArticleSchema = new mongoose.Schema({
   content: { type: String, required: true }, // HTMLString, comes from the editor
   thumbnail: { type: String, required: true }, // CDN URI
   views: { type: Number, required: false }, // number of views
-  likes: { type: Number, required: false }, // number of likes
+  likes: { type: Array, required: false }, // array of UserIDS
   shares: { type: Number, required: false }, // number of shares
-  savedBy: { type: Array, required: false }, // array of userIds
+  savedByCount: { type: Number, required: false }, // number of users who saved this article
   categories: { type: Array, required: true },
   createdBy: {
     id: { type: String, required: true },
