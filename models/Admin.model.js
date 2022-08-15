@@ -1,19 +1,19 @@
 import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema(
+const AdminSchema = new mongoose.Schema(
   {
     _id: { type: String, required: true },
     name: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    avatar: { type: String, required: true },
+    avatar: { type: String, required: false },
     userType: { type: String, required: true }, // admin
     createdAt: { type: String, default: new Date().toISOString() },
     updatedAt: { type: String, default: new Date().toISOString() },
   },
-  { collection: "users" }
+  { collection: "admins" }
 );
 
-const UserModel = mongoose.model("User", UserSchema);
+const AdminModel = mongoose.model("Admin", AdminSchema);
 
-export default UserModel;
+export default AdminModel;

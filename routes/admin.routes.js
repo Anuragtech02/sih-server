@@ -7,7 +7,7 @@ import {
   updateAdmin,
   getSingleAdmin,
 } from "../controllers/admin.js";
-import { adminAuthCheck } from "../middleware/auth.js";
+import { adminAuthCheck } from "../middlewares/auth.js";
 const router = express.Router();
 
 // we need user token and the id for all auth routes
