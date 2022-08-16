@@ -35,29 +35,19 @@ export const createNotification = async (req, res) => {
       message: "Title, body and status are required",
     });
   }
-
-  const notification = new NotificationModel({
-    _id: uuid(),
-    title: req.body.title,
-    body: req.body.body,
-    status: req.body.status,
-    createdAt: new Date().toISOString(),
-    publishedBy: {
-      id: req.user._id,
-      userType: req.user.userType,
-      _id: false,
-    },
-  });
   try {
-    const user = await UserModel.findOne({ contact: req.user.contact });
-    if (!user) {
-      return res.status(400).json({
-        status: "error",
-        message: "User not found",
-      });
-    }
-    NotificationModel.create({ details });
-    await user.save();
+    const notification = await NotificationModel.create({
+      _id: uuid(),
+      title: req.body.title,
+      body: req.body.body,
+      status: req.body.status,
+      createdAt: new Date().toISOString(),
+      publishedBy: {
+        id: req.user._id,
+        userType: req.user.userType,
+        _id: false,
+      },
+    });
     return res.status(200).json(notification);
   } catch (error) {
     res.status(500).json({ message: error.message });
