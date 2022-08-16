@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import userRoutes from "./routes/user.routes.js";
+import adminRoutes from "./routes/admin.routes.js";
 import articleRoutes from "./routes/article.routes.js";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
@@ -13,6 +14,7 @@ app.use(express.json());
 dotenv.config();
 
 app.use("/user", userRoutes);
+app.use("/admin", adminRoutes);
 app.use("/article", articleRoutes);
 
 const DATABASE_URL = process.env.DB_URI;
