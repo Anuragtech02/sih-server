@@ -9,7 +9,7 @@ const ArticleSchema = new mongoose.Schema({
   views: { type: Number, required: false }, // number of views
   likes: { type: Array, required: false }, // array of UserIDS
   shares: { type: Number, required: false }, // number of shares
-  savedByCount: { type: Number, required: false }, // number of users who saved this article
+  savedByCount: { type: Number, required: false, default:0}, // number of users who saved this article
   categories: { type: Array, required: true },
   createdBy: {
     id: { type: String, required: true },
