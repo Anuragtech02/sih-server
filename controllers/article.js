@@ -1,5 +1,6 @@
 import ArticleModel from "../models/Article.model.js";
 import { v4 as uuid } from "uuid";
+import UserModel from "../models/User.model.js";
 
 export async function createArticle(req, res) {
   try {
@@ -95,6 +96,109 @@ export async function deleteArticle(req, res) {
     return res.status(200).json({
       status: "success",
       data: res,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+}
+
+export async function updateArticleLikes(req, res) {
+  if (!req.body.articleId) {
+    return res.status(400).json({
+      status: "error",
+      message: "Invalid Article",
+    });
+  }
+  try {
+    const Article = await ArticleModel.findById(req.body.articleId);
+    let likes = Article.likes;
+    const isLiked = likes.includes(req.body.userId);
+    if (isLiked) {
+      likes = likes.filter((like) => like !== req.body.userId);
+      await UserModel.findByIdAndUpdate(req.body.userId, {
+        $pull: { likedArticles: req.body.articleId },
+      });
+    } else {
+      likes.push(req.body.userId);
+      await UserModel.findByIdAndUpdate(
+        req.body.userId,
+        {
+          $push: { likedArticles: req.body.articleId },
+        },
+        { new: true }
+      );
+    }
+    const LikesUpdated = await ArticleModel.findByIdAndUpdate(
+      req.body.articleId,
+      { likes: likes },
+      { new: true }
+    );
+
+    return res.status(200).json({
+      status: "success",
+      data: LikesUpdated,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+}
+
+export async function updateArticleViews(req, res) {
+  if (!req.body.articleId) {
+    return res.status(400).json({
+      status: "error",
+      message: "Invalid Article",
+    });
+  }
+  try {
+    const ViewsUpdated = await ArticleModel.findByIdAndUpdate(
+      req.body.articleId,
+      { $inc: { views: 1 } },
+      { new: true }
+    );
+    return res.status(200).json({
+      status: "success",
+      data: ViewsUpdated,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+}
+
+export async function userSaveArticle(req, res) {
+  if (!req.body.articleId) {
+    return res.status(400).json({
+      status: "error",
+      message: "Invalid Article",
+    });
+  }
+  try {
+    const SavedUpdated = await UserModel.findByIdAndUpdate(
+      req.body.articleId,
+      {
+        $push: { savedArticles: req.body.articleId },
+      },
+      { new: true, upsert: true }
+    );
+    await ArticleModel.findByIdAndUpdate(
+      req.body.articleId,
+      {
+        $inc: { savedByCount: 1 },
+      },
+      { new: true }
+    );
+    return res.status(200).json({
+      status: "success",
+      data: SavedUpdated,
     });
   } catch (error) {
     return res.status(500).json({

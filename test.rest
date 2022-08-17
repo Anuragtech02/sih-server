@@ -1,0 +1,7 @@
+PATCH http://localhost:5000/article/likes
+Content-Type: application/json
+
+{
+    "articleId":"57adc35f_e36f_44c2_8732_e5c621d51c99",
+    "userId":"THIS_IS_A_TEMP_ID"
+}
