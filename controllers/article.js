@@ -4,6 +4,7 @@ import { v4 as uuid } from "uuid";
 export async function createArticle(req, res) {
   try {
     // console.log(req, res);
+    console.log("hell");
     const Article = await ArticleModel.create({
       ...req.body,
       _id: `${uuid().replace(/-/g, "_")}`,
@@ -23,7 +24,6 @@ export async function createArticle(req, res) {
 }
 
 export async function getArticle(req, res) {
-  // console.log(req.query);
   if (!req.query.id) {
     return res.status(400).json({
       status: "error",
@@ -96,6 +96,36 @@ export async function deleteArticle(req, res) {
       status: "success",
       data: res,
     });
+  } catch (error) {
+    return res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+}
+
+export async function translateArticle(req, res) {
+  if (!req.body)
+    return res.status(400).json({
+      status: "error",
+      message: "Required Field Is Missing",
+    });
+  const { id, language } = body;
+  if (!id || !language)
+    return res.status(400).json({
+      status: "error",
+      message: "Required Field Is Missing",
+    });
+  try {
+    const Article = await ArticleModel.findById(req.query.id);
+    if (!Article)
+      return res.status(400).json({
+        status: "error",
+        message: "Article Not Found",
+      });
+    console.log(Article);
+    const TranslatedArticle = await tranlation;
+    return res.status(200).json(TranslatedArticle);
   } catch (error) {
     return res.status(500).json({
       status: "error",
