@@ -28,7 +28,7 @@ export const getImage = async (req, res) => {
 };
 
 //done
-export const createImage = async (req, res) => {
+export const createLiveVideo = async (req, res) => {
   if (!req.body.videoUrl) {
     return res.status(400).json({
       status: "error",
