@@ -40,3 +40,12 @@ GET http://localhost:5000/image/all
 
 ###
 GET http://localhost:5000/livevideo/allVideos
+
+### 
+POST http://localhost:5000/livevideo/createLiveVideo
+Content-Type: application/json
+
+{
+    "title": "Temp_Title",
+    "videoUrl":"https://www.youtube.com/watch?v=JAZ16G2E3jc"
+}
