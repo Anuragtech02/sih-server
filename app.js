@@ -3,6 +3,8 @@ import cors from "cors";
 import userRoutes from "./routes/user.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import articleRoutes from "./routes/article.routes.js";
+import imageRoutes from "./routes/image.routes.js";
+import livevideoRoutes from "./routes/video.routes.js";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 
@@ -16,6 +18,8 @@ dotenv.config();
 app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
 app.use("/article", articleRoutes);
+app.use("/image", imageRoutes);
+app.use("/livevideo", livevideoRoutes);
 
 const DATABASE_URL = process.env.DB_URI;
 

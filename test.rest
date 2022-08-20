@@ -5,3 +5,38 @@ Content-Type: application/json
     "articleId":"57adc35f_e36f_44c2_8732_e5c621d51c99",
     "userId":"THIS_IS_A_TEMP_ID"
 }
+
+###
+
+POST http://localhost:5000/article/create
+Content-Type: application/json
+
+{
+    "title": "Topicsss",
+    "slug": "ASD",
+    "thumbnail": "TPCS",
+    "categories": ["ksp"],
+    "content": {
+        "en" : "this is English language"
+    },
+    "createdBy": {
+        "id": "THIS_IS_A_TEMP_ID",
+        "userType": "user"
+    }
+}
+
+###
+
+POST https://translator-api-sih-2022.herokuapp.com/home
+Content-Type: application/json
+
+{
+    "sentence": "In a first of its kind initiative, a “Buyer Seller Meet on Dragon Fruit” was organized by Agricultural and Processed Food Products Export Development Authority (APEDA), Bangalore Regional Office in collaboration with University of Agricultural Sciences, Bangalore and KAPPEC, at the GKVK Campus, Bangalore to promote export of Dragon Fruit. Delivering the keynote address, Dr. M. Angamuthu, Chairman APEDA said that more stakeholders interaction will be done in future and a Reverse Buyer Seller Meet will be organized for promotion of Dragon Fruit and value added products in order to boost exports. He pointed towards the collaboration with I.I.H.R. for standardization of fruit parameters and value added products to help the industry. The Meet was attended by Farmers/FPOs and Exporters. Officials from JDGFT, KAPPEC, UAS were present during the event. Dr. S. Rajendra Prasad, Vice-Chancellor, UAS(B) inaugurated the event.",
+    "toLang": "hi"
+}
+
+###
+GET http://localhost:5000/image/all
+
+###
+GET http://localhost:5000/livevideo/allVideos
