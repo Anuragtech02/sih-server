@@ -1,6 +1,7 @@
 import ArticleModel from "../models/Article.model.js";
 import { v4 as uuid } from "uuid";
 import UserModel from "../models/User.model.js";
+import axios from "axios";
 
 export async function createArticle(req, res) {
   try {
@@ -9,9 +10,14 @@ export async function createArticle(req, res) {
       ...req.body,
       _id: `${uuid().replace(/-/g, "_")}`,
     });
+    const response = await axios.post('https://translator-api-sih-2022.herokuapp.com/home',{
+      senetence : req.body.content.en,
+      toLang: "hi"
+    })
+    console.log(response.data.data)
     console.log(Article);
     return res.status(201).json({
-      status: "success",
+      status: "success",  
       data: Article,
     });
   } catch (error) {
