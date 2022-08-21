@@ -1,5 +1,7 @@
 import ArticleModel from "../models/Article.model.js";
 import { v4 as uuid } from "uuid";
+import UserModel from "../models/User.model.js";
+import axios from "axios";
 
 export async function createArticle(req, res) {
   try {
@@ -9,7 +11,10 @@ export async function createArticle(req, res) {
       ...req.body,
       _id: `${uuid().replace(/-/g, "_")}`,
     });
-    console.log(Article);
+    const response = axios.post("https://translator-sih-2022.herokuapp.com/", {
+      sentence: req.body.content.en,
+      id: Article._id,
+    });
     return res.status(201).json({
       status: "success",
       data: Article,
@@ -45,7 +50,7 @@ export async function getArticle(req, res) {
 
 export async function getArticles(req, res) {
   try {
-    const Articles = await ArticleModel.find().limit(10);
+    const Articles = await ArticleModel.find();
     return res.status(200).json(Articles);
   } catch (error) {
     return res.status(500).json({
@@ -104,28 +109,101 @@ export async function deleteArticle(req, res) {
   }
 }
 
-export async function translateArticle(req, res) {
-  if (!req.body)
+export async function updateArticleLikes(req, res) {
+  if (!req.body.articleId) {
     return res.status(400).json({
       status: "error",
-      message: "Required Field Is Missing",
+      message: "Invalid Article",
     });
-  const { id, language } = body;
-  if (!id || !language)
-    return res.status(400).json({
-      status: "error",
-      message: "Required Field Is Missing",
-    });
+  }
   try {
-    const Article = await ArticleModel.findById(req.query.id);
-    if (!Article)
-      return res.status(400).json({
-        status: "error",
-        message: "Article Not Found",
+    const Article = await ArticleModel.findById(req.body.articleId);
+    let likes = Article.likes;
+    const isLiked = likes.includes(req.body.userId);
+    if (isLiked) {
+      likes = likes.filter((like) => like !== req.body.userId);
+      await UserModel.findByIdAndUpdate(req.body.userId, {
+        $pull: { likedArticles: req.body.articleId },
       });
-    console.log(Article);
-    const TranslatedArticle = await tranlation;
-    return res.status(200).json(TranslatedArticle);
+    } else {
+      likes.push(req.body.userId);
+      await UserModel.findByIdAndUpdate(
+        req.body.userId,
+        {
+          $push: { likedArticles: req.body.articleId },
+        },
+        { new: true }
+      );
+    }
+    const LikesUpdated = await ArticleModel.findByIdAndUpdate(
+      req.body.articleId,
+      { likes: likes },
+      { new: true }
+    );
+
+    return res.status(200).json({
+      status: "success",
+      data: LikesUpdated,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+}
+
+export async function updateArticleViews(req, res) {
+  if (!req.body.articleId) {
+    return res.status(400).json({
+      status: "error",
+      message: "Invalid Article",
+    });
+  }
+  try {
+    const ViewsUpdated = await ArticleModel.findByIdAndUpdate(
+      req.body.articleId,
+      { $inc: { views: 1 } },
+      { new: true }
+    );
+    return res.status(200).json({
+      status: "success",
+      data: ViewsUpdated,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+}
+
+export async function userSaveArticle(req, res) {
+  if (!req.body.articleId) {
+    return res.status(400).json({
+      status: "error",
+      message: "Invalid Article",
+    });
+  }
+  try {
+    const SavedUpdated = await UserModel.findByIdAndUpdate(
+      req.body.articleId,
+      {
+        $push: { savedArticles: req.body.articleId },
+      },
+      { new: true, upsert: true }
+    );
+    await ArticleModel.findByIdAndUpdate(
+      req.body.articleId,
+      {
+        $inc: { savedByCount: 1 },
+      },
+      { new: true }
+    );
+    return res.status(200).json({
+      status: "success",
+      data: SavedUpdated,
+    });
   } catch (error) {
     return res.status(500).json({
       status: "error",
