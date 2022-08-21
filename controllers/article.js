@@ -11,7 +11,7 @@ export async function createArticle(req, res) {
       _id: `${uuid().replace(/-/g, "_")}`,
     });
     const response = axios.post(
-      "https://translator-api-sih2022.herokuapp.com/",
+      "https://translator-api-sih-2022.herokuapp.com/",
       {
         sentence: req.body.content.en,
       }
