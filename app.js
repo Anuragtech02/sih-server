@@ -19,7 +19,7 @@ app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
 app.use("/article", articleRoutes);
 app.use("/image", imageRoutes);
-app.use("/livevideo", livevideoRoutes);
+app.use("/live", livevideoRoutes);
 
 const DATABASE_URL = process.env.DB_URI;
 
