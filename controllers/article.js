@@ -10,12 +10,9 @@ export async function createArticle(req, res) {
       ...req.body,
       _id: `${uuid().replace(/-/g, "_")}`,
     });
-    const response = axios.post(
-      "https://translator-api-sih-2022.herokuapp.com/",
-      {
-        sentence: req.body.content.en,
-      }
-    );
+    const response = axios.post("https://translator-sih-2022.herokuapp.com/", {
+      sentence: req.body.content.en,
+    });
     return res.status(201).json({
       status: "success",
       data: Article,
