@@ -59,7 +59,7 @@ export const createUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.body;
 
     await UserModel.findByIdAndRemove(id);
   } catch (error) {
@@ -69,7 +69,7 @@ export const deleteUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.body;
 
     await UserModel.findByIdAndUpdate(id, req.body, { new: true });
 
@@ -78,5 +78,25 @@ export const updateUser = async (req, res) => {
     res.status(404).status({ message: error.message });
   }
 };
+
+export const updateUserReward = async (req, res) => {
+  try {
+    const { id, points } = req.body;
+    const user = await UserModel.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    await UserModel.findByIdAndUpdate(
+      id,
+      { $inc: { rewardPoints: points } },
+      { new: true }
+    );
+    res.status(200).json({message: "Reward Added!"});
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+    
 
 export default router;
