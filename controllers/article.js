@@ -10,14 +10,17 @@ export async function createArticle(req, res) {
       ...req.body,
       _id: `${uuid().replace(/-/g, "_")}`,
     });
-    const response = await axios.post('https://translator-api-sih-2022.herokuapp.com/home',{
-      senetence : req.body.content.en,
-      toLang: "hi"
-    })
-    console.log(response.data.data)
+    const response = await axios.post(
+      "https://translator-api-sih-2022.herokuapp.com/home",
+      {
+        senetence: req.body.content.en,
+        toLang: "hi",
+      }
+    );
+    console.log(response.data.data);
     console.log(Article);
     return res.status(201).json({
-      status: "success",  
+      status: "success",
       data: Article,
     });
   } catch (error) {
@@ -52,7 +55,7 @@ export async function getArticle(req, res) {
 
 export async function getArticles(req, res) {
   try {
-    const Articles = await ArticleModel.find().limit(10);
+    const Articles = await ArticleModel.find();
     return res.status(200).json(Articles);
   } catch (error) {
     return res.status(500).json({
