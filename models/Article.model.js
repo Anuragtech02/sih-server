@@ -9,10 +9,11 @@ const ArticleSchema = new mongoose.Schema({
     hi: { type: String, required: false }, // hindi
     gu: { type: String, required: false }, // gujarati
     kn: { type: String, required: false }, // kannada
-    kk: { type: String, required: false }, // konkani
-    pu: { type: String, required: false }, // punjabi
-    tm: { type: String, required: false }, // tamil
+    pa: { type: String, required: false }, // punjabi
+    ta: { type: String, required: false }, // tamil
     te: { type: String, required: false }, // telugu    
+    mr: { type: String, required: false }, // marathi
+    ml: { type: String, required: false }, // malayalam
   }, // HTMLString, comes from the editor
   thumbnail: { type: String, required: true }, // CDN URI
   views: { type: Number, required: false }, // number of views
