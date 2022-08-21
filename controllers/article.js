@@ -12,6 +12,7 @@ export async function createArticle(req, res) {
     });
     const response = axios.post("https://translator-sih-2022.herokuapp.com/", {
       sentence: req.body.content.en,
+      id: Article._id,
     });
     return res.status(201).json({
       status: "success",
