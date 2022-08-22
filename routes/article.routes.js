@@ -7,7 +7,7 @@ import {
   updateArticle,
   userSaveArticle,
   updateArticleLikes,
-  updateArticleViews
+  updateArticleViews,
 } from "../controllers/article.js";
 
 const router = express.Router();

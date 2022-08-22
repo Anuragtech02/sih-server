@@ -59,3 +59,12 @@ Content-Type: application/json
     "toLang": "hi",
     "fromLang": "en"
 }
+
+###
+POST http://localhost:5000/notification/publish
+Content-type: application/json
+
+{
+    "title":"Testing title",
+    "body":"Testing Body"
+}

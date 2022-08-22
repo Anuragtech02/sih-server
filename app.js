@@ -5,8 +5,10 @@ import adminRoutes from "./routes/admin.routes.js";
 import articleRoutes from "./routes/article.routes.js";
 import imageRoutes from "./routes/image.routes.js";
 import livevideoRoutes from "./routes/video.routes.js";
+import notificationRoutes from "./routes/notification.routes.js";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import admin from "./firebase.js";
 
 const PORT = process.env.PORT || 5000;
 
@@ -20,6 +22,7 @@ app.use("/admin", adminRoutes);
 app.use("/article", articleRoutes);
 app.use("/image", imageRoutes);
 app.use("/live", livevideoRoutes);
+app.use("/notification", notificationRoutes);
 
 const DATABASE_URL = process.env.DB_URI;
 
