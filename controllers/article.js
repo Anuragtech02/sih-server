@@ -110,20 +110,20 @@ export async function deleteArticle(req, res) {
 }
 
 export async function updateArticleLikes(req, res) {
-  if (!req.body.articleId) {
+  if (!req.body.id) {
     return res.status(400).json({
       status: "error",
       message: "Invalid Article",
     });
   }
   try {
-    const Article = await ArticleModel.findById(req.body.articleId);
+    const Article = await ArticleModel.findById(req.body.id);
     let likes = Article.likes;
     const isLiked = likes.includes(req.body.userId);
     if (isLiked) {
       likes = likes.filter((like) => like !== req.body.userId);
       await UserModel.findByIdAndUpdate(req.body.userId, {
-        $pull: { likedArticles: req.body.articleId },
+        $pull: { likedArticles: req.body.id },
       });
     } else {
       likes.push(req.body.userId);
@@ -154,7 +154,7 @@ export async function updateArticleLikes(req, res) {
 }
 
 export async function updateArticleViews(req, res) {
-  if (!req.body.articleId) {
+  if (!req.body.id) {
     return res.status(400).json({
       status: "error",
       message: "Invalid Article",
@@ -162,7 +162,7 @@ export async function updateArticleViews(req, res) {
   }
   try {
     const ViewsUpdated = await ArticleModel.findByIdAndUpdate(
-      req.body.articleId,
+      req.body.id,
       { $inc: { views: 1 } },
       { new: true }
     );
@@ -179,7 +179,7 @@ export async function updateArticleViews(req, res) {
 }
 
 export async function userSaveArticle(req, res) {
-  if (!req.body.articleId) {
+  if (!req.body.id) {
     return res.status(400).json({
       status: "error",
       message: "Invalid Article",
@@ -187,14 +187,14 @@ export async function userSaveArticle(req, res) {
   }
   try {
     const SavedUpdated = await UserModel.findByIdAndUpdate(
-      req.body.articleId,
+      req.body.id,
       {
-        $push: { savedArticles: req.body.articleId },
+        $push: { savedArticles: req.body.id },
       },
       { new: true, upsert: true }
     );
     await ArticleModel.findByIdAndUpdate(
-      req.body.articleId,
+      req.body.id,
       {
         $inc: { savedByCount: 1 },
       },
