@@ -30,7 +30,7 @@ export const getNotifications = async (req, res) => {
 };
 
 export const createNotification = async (req, res) => {
-  if (!req.body.title || !req.body.body || !req.body.status) {
+  if (!req.body.title || !req.body.body) {
     return res.status(400).json({
       status: "error",
       message: "Title, body and status are required",
@@ -61,7 +61,7 @@ export const createNotification = async (req, res) => {
     //   },
     // });
     const response = await admin.messaging().sendMulticast(message);
-    console.log(response);
+    console.log(response.responses[0].error);
     return res.status(200).json({});
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -66,6 +66,5 @@ Content-type: application/json
 
 {
     "title":"Testing title",
-    "body":"Testing Body",
-    "status":"12313"
+    "body":"Testing Body"
 }
