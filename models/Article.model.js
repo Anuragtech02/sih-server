@@ -7,11 +7,12 @@ const ArticleSchema = new mongoose.Schema({
   content: {
     en: { type: String, required: true }, // english
     hi: { type: String, required: false }, // hindi
+    be: { type: String, required: false }, // bengali
     gu: { type: String, required: false }, // gujarati
     kn: { type: String, required: false }, // kannada
     pa: { type: String, required: false }, // punjabi
     ta: { type: String, required: false }, // tamil
-    te: { type: String, required: false }, // telugu    
+    te: { type: String, required: false }, // telugu
     mr: { type: String, required: false }, // marathi
     ml: { type: String, required: false }, // malayalam
   }, // HTMLString, comes from the editor
