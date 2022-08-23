@@ -50,7 +50,21 @@ export async function getArticle(req, res) {
 
 export async function getArticles(req, res) {
   try {
-    const Articles = await ArticleModel.find();
+    const Articles = await ArticleModel.find(
+      {},
+      {
+        _id: 1,
+        title: 1,
+        thumbnail: 1,
+        createdAt: 1,
+        slug: 1,
+        views: 1,
+        likes: 1,
+        createdBy: 1,
+      }
+    )
+      .sort({ createdAt: "desc" })
+      .limit(req.query.limit || 10);
     return res.status(200).json(Articles);
   } catch (error) {
     return res.status(500).json({
