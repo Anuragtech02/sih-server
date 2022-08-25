@@ -3,6 +3,7 @@ import cors from "cors";
 import userRoutes from "./routes/user.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import articleRoutes from "./routes/article.routes.js";
+import authRoutes from "./routes/auth.routes.js";
 import imageRoutes from "./routes/image.routes.js";
 import livevideoRoutes from "./routes/video.routes.js";
 import notificationRoutes from "./routes/notification.routes.js";
@@ -23,6 +24,7 @@ app.use("/admin", adminRoutes);
 app.use("/article", articleRoutes);
 app.use("/image", imageRoutes);
 app.use("/live", livevideoRoutes);
+app.use("/auth", authRoutes);
 app.use("/notification", notificationRoutes);
 app.use("/mediaInvitation", mediaInvitation);
 
