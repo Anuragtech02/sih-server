@@ -8,16 +8,16 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:5000/article/create
+POST https://dsalgo.tech/article/create
 Content-Type: application/json
 
 {
-    "title": "Topicsss",
-    "slug": "ASD",
-    "thumbnail": "TPCS",
-    "categories": ["ksp"],
+    "title": "DRI seizes 52 kg Cocaine worth over Rs 500 crore under Operation Namkeen",
+    "slug": "httpspibgovinpressreleasepageaspxprid1828564ASD",
+    "thumbnail": "https://static.pib.gov.in/WriteReadData/userfiles/image/image002ZS0E.jpg",
+    "categories": ["Ministry of Finance"],
     "content": {
-        "en" : "this is English language. This is very funny language."
+        "en" : "Continuing its streak of significant seizures, the Directorate of Revenue Intelligence (DRI) has recovered 52 kg of cocaine, estimated to be valued at over Rs 500 crore in the international illicit market, from an import consignment. On the basis of extensive data analysis and field surveillance, intelligence was developed by DRI that certain consignments being imported from Iran were likely to contain narcotic drugs. In order to interdict the narcotic drugs, “Op Namkeen” was launched by DRI and a consignment, declared to contain 1,000 bags of common salt having gross weight of 25 MT, which had been imported at Mundra port from Iran, was identified for detailed examination."
     },
     "createdBy": {
         "id": "THIS_IS_A_TEMP_ID",
@@ -78,3 +78,5 @@ Content-type: application/json
     "invitationDate" : "2022-08-27",
     "content":"This is the test content"
 }
+
+### 

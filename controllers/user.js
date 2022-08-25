@@ -97,6 +97,4 @@ export const updateUserReward = async (req, res) => {
   }
 };
 
-    
-
 export default router;
