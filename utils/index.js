@@ -3,20 +3,6 @@ import xml2js from "xml2js";
 import some from "rss-to-json";
 
 const { parse } = some;
-
-function xmlTojson(xml) {
-  var parser = new xml2js.Parser();
-  return new Promise((resolve, reject) => {
-    parser.parseString(xml, function (err, result) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(result);
-      }
-    });
-  });
-}
-
 async function getRealease() {
   const res = await parse(
     "https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3"

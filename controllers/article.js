@@ -232,7 +232,7 @@ export async function userSaveArticle(req, res) {
 
 export const getArticlesFromRss = async (req, res) => {
   try {
-    const feed = await parser.parseURL(
+    const feed = await parse(
       "https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3"
     );
     const data = JSON.parse(JSON.stringify(feed, null, 3));
