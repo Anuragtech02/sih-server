@@ -14,6 +14,7 @@ const UserSchema = new mongoose.Schema(
     likedArticles: { type: Array, required: false }, // array of articleIds
     rewards: { type: Array, required: false },
     rewardPoints: { type: Number, required: false }, // number of rewardPoints
+    fcmToken: { type: String, required: false },
     notifications: [{
       _id : { type: String, required: true },
       status:{ type: String, required: true }    // read or unread or sent
