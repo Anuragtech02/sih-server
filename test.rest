@@ -68,3 +68,13 @@ Content-type: application/json
     "title":"Testing title",
     "body":"Testing Body"
 }
+
+###
+POST http://localhost:5000/mediaInvitation/create
+Content-type: application/json
+
+{
+    "title":"Testing title",
+    "invitationDate" : "2022-08-27",
+    "content":"This is the test content"
+}

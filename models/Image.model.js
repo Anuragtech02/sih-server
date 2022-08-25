@@ -10,7 +10,7 @@ const ImageSchema = new mongoose.Schema(
       default: new Date().toISOString(),
     },
   },
-  { collection: "users" }
+  { collection: "images" }
 );
 
 const ImageModel = mongoose.model("Image", ImageSchema);

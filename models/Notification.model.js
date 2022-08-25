@@ -16,7 +16,7 @@ const NotificationSchema = new mongoose.Schema(
       _id: false,
     },
   },
-  { collection: "users" }
+  { collection: "notifications" }
 );
 
 const NotificationModel = mongoose.model("Notification", NotificationSchema);
