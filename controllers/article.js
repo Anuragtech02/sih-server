@@ -6,7 +6,7 @@ import axios from "axios";
 export async function createArticle(req, res) {
   try {
     // console.log(req, res);
-    console.log("hell");
+    console.log("Success");
     const Article = await ArticleModel.create({
       ...req.body,
       _id: `${uuid().replace(/-/g, "_")}`,
