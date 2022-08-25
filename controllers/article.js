@@ -4,6 +4,7 @@ import UserModel from "../models/User.model.js";
 import axios from "axios";
 import xml2js from "xml2js";
 import some from "rss-to-json";
+import createNotification from "./notification.js";
 
 const { parse } = some;
 
@@ -19,6 +20,36 @@ export async function createArticle(req, res) {
       sentence: req.body.content.en,
       id: Article._id,
     });
+    const message = {
+      notification: {
+        ...req.body,
+      },
+      tokens: [
+        "c-n6Rsg9SX2ziISDz-rDXP:APA91bEr9wxno3GXKZw1AS3a1A9bEEou8aWclKwuInE3bRZUWxYUBDQevSlRrLsEe3uzakolB_k3qkIoMV8bDr4ipcuOjaICdnUaWj0hkcn6ydxLV2_WREPxQ5Jm1nIzMoh9GJhUcSk_",
+        "fF0kZlhFTq6Dz27G69SII-:APA91bEeKjxDsMcN8o7p06KMmqDyza_M5YRXavQ-TKu7WbKnBaYlGznZTuTfVpJ1g67IJyw72jWdflJyh3vwZBSR1uv3vS939U0DFHSqbk8XCs_EW-ircm5jTKePya__w-vNZMaSnGTZ",
+        "ciBJpI-MRwm94xBTAsXLrl:APA91bG0El_8Lfu98Y1rFUqAA_FrqgywEfPv23zl8fiOzeSc1iqQeK_4obC3AUkcNO9tukpHlQ6nZqoA3GBZBLqLgoMJ5fs9WUA8Xrwwo6-4jht01lSgyLuCDvNf8DSc_hm_zc2XmFy1",
+      ],
+    };
+    // const notification = await NotificationModel.create({
+    //   _id: uuid(),
+    //   title: req.body.title,
+    //   body: req.body.body,
+    //   status: req.body.status,
+    //   createdAt: new Date().toISOString(),
+    //   publishedBy: {
+    //     id: req.user._id,
+    //     userType: req.user.userType,
+    //     _id: false,
+    //   },
+    // });
+    const response = await admin.messaging().sendMulticast(message);
+    createNotification(
+      {
+        title: "New Article Published",
+        body: Article.title,
+      },
+      res
+    );
     return res.status(201).json({
       status: "success",
       data: Article,
