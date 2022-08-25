@@ -37,7 +37,7 @@ const ArticleSchema = new mongoose.Schema(
       default: new Date().toISOString(),
     },
   },
-  { collection: "users" }
+  { collection: "articles" }
 );
 
 const ArticleModel = mongoose.model("Article", ArticleSchema);
