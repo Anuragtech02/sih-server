@@ -8,6 +8,7 @@ import {
   userSaveArticle,
   updateArticleLikes,
   updateArticleViews,
+  getArticlesFromRss,
 } from "../controllers/article.js";
 
 const router = express.Router();
@@ -20,5 +21,6 @@ router.delete("/delete", deleteArticle);
 router.patch("/user-save", userSaveArticle);
 router.patch("/likes", updateArticleLikes);
 router.patch("/views", updateArticleViews);
+router.get("/rss",getArticlesFromRss)
 
 export default router;

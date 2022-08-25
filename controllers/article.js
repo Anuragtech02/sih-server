@@ -225,3 +225,26 @@ export async function userSaveArticle(req, res) {
     });
   }
 }
+
+export const getArticlesFromRss = async (req, res) => {
+  try {
+    const feed = await parser.parseURL(
+      "https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3"
+    );
+    const data = JSON.parse(JSON.stringify(res, null, 3));
+    return res
+      .status(200)
+      .json(
+        data.items?.map((item) => ({
+          ...item,
+          thumbnail:
+            "https://ik.imagekit.io/sihassembly/sih-placeholder_cXgXA446y.png?ik-sdk-version=javascript-1.4.3&updatedAt=1661432719323",
+        }))
+      );
+  } catch (error) {
+    return res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+};
