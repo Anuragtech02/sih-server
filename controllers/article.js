@@ -2,6 +2,10 @@ import ArticleModel from "../models/Article.model.js";
 import { v4 as uuid } from "uuid";
 import UserModel from "../models/User.model.js";
 import axios from "axios";
+import xml2js from "xml2js";
+import some from "rss-to-json";
+
+const { parse } = some;
 
 export async function createArticle(req, res) {
   try {
@@ -232,15 +236,13 @@ export const getArticlesFromRss = async (req, res) => {
       "https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3"
     );
     const data = JSON.parse(JSON.stringify(feed, null, 3));
-    return res
-      .status(200)
-      .json(
-        data.items?.map((item) => ({
-          ...item,
-          thumbnail:
-            "https://ik.imagekit.io/sihassembly/sih-placeholder_cXgXA446y.png?ik-sdk-version=javascript-1.4.3&updatedAt=1661432719323",
-        }))
-      );
+    return res.status(200).json(
+      data.items?.map((item) => ({
+        ...item,
+        thumbnail:
+          "https://ik.imagekit.io/sihassembly/sih-placeholder_cXgXA446y.png?ik-sdk-version=javascript-1.4.3&updatedAt=1661432719323",
+      }))
+    );
   } catch (error) {
     return res.status(500).json({
       status: "error",
