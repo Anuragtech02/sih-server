@@ -231,7 +231,7 @@ export const getArticlesFromRss = async (req, res) => {
     const feed = await parser.parseURL(
       "https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3"
     );
-    const data = JSON.parse(JSON.stringify(res, null, 3));
+    const data = JSON.parse(JSON.stringify(feed, null, 3));
     return res
       .status(200)
       .json(
