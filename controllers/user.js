@@ -49,9 +49,20 @@ export const createUser = async (req, res) => {
     const result = await UserModel.create({
       ...finalData,
       _id: `PIB_${uuid().replace(/-/g, "_")}`,
+      userType: "registered",
     });
 
-    res.status(200).json({ result, message: "User created successfully" });
+    const token = jwt.sign(
+      {
+        contact,
+        id: result._id,
+        userType: result.userType,
+      },
+      process.env.AUTH_KEY,
+      { expiresIn: "7d" }
+    );
+
+    res.status(200).json({ token, message: "User created successfully" });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -91,7 +102,7 @@ export const updateUserReward = async (req, res) => {
       { $inc: { rewardPoints: points } },
       { new: true }
     );
-    res.status(200).json({message: "Reward Added!"});
+    res.status(200).json({ message: "Reward Added!" });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
