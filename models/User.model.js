@@ -16,7 +16,7 @@ const UserSchema = new mongoose.Schema(
     rewardPoints: { type: Number, required: false }, // number of rewardPoints
     fcmToken: { type: String, required: false },
     ministries: { type: Array, required: false },
-    regions: { type: Array, required: false },
+    region: { type: Array, required: false },
     notifications: [{
       _id : { type: String, required: true },
       status:{ type: String, required: true }    // read or unread or sent
