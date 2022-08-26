@@ -5,6 +5,7 @@ import axios from "axios";
 import xml2js from "xml2js";
 import some from "rss-to-json";
 import { createNotification } from "./notification.js";
+import NotificationModel from "../models/Notification.model.js";
 
 const { parse } = some;
 
