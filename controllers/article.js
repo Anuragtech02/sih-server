@@ -44,7 +44,7 @@ export async function createArticle(req, res) {
       createdAt: new Date().toISOString(),
       publishedBy: {
         id: "req.user._id",
-        userType: req.user.userType,
+        userType: "admin",
         _id: false,
       },
     });
