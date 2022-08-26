@@ -10,7 +10,6 @@ import {
   updateArticleViews,
   getArticlesFromRss,
   getPressReleasePIB,
-  getMediaInvitationPIB,
   getPhotosPIB,
   getPressReleasePIBbyDate,
 } from "../controllers/article.js";
