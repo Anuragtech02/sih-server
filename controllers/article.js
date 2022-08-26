@@ -7,6 +7,7 @@ import some from "rss-to-json";
 import { createNotification } from "./notification.js";
 import NotificationModel from "../models/Notification.model.js";
 import admin from "firebase-admin";
+import { pibs } from "../utils/index.js";
 
 const { parse } = some;
 
@@ -21,6 +22,7 @@ export async function createArticle(req, res) {
         id: "ADMIN_PIB",
         userType: "admin",
       },
+      createdAt: new Date(req.body.createdAt).toISOString(),
     });
     const translate = axios.post("https://translator-sih-2022.herokuapp.com/", {
       sentence: req.body.content.en,
@@ -277,24 +279,45 @@ export async function userSaveArticle(req, res) {
   }
 }
 
+export async function htoJ(item) {
+  return await axios.post("http://localhost:8000/", {
+    title: item.title,
+    link: item.link,
+  });
+}
+
+export async function translate(item) {
+  return await axios.post("http://localhost:8080/", {
+    title: item.title,
+    jsonData: item.jsonData,
+  });
+}
+
 export const getArticlesFromRss = async (req, res) => {
   try {
     const feed = await parse(
       "https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3"
     );
     const data = JSON.parse(JSON.stringify(feed, null, 3));
-    const item = data.items[0];
-    console.log(item);
-    const htoj = await axios.post("http://localhost:8080/", {
-      title: item.title,
-      link: item.link,
-    });
-    console.log(htoj.data);
-    const translate = await axios.post("http://localhost:8000/", {
-      jsonData: htoj.data.jsonData,
-      title: item.title,
-    });
-    console.log(response.data, translate);
+    console.log(data);
+    const htojPromises = data.items.slice(3, 6).map((item) => htoJ(item));
+    console.log(htojPromises);
+    const dataJsons = await Promise.all(htojPromises);
+    console.log(dataJsons.map((it) => it.data));
+    const translatePromises = dataJsons.map((item) => translate(item.data));
+    const allRes = await Promise.all(translatePromises);
+    console.log(allRes);
+    // console.log(item);
+    // const htoj = await axios.post("http://localhost:8080/", {
+    //   title: item.title,
+    //   link: item.link,
+    // });
+    // console.log(htoj.data);
+    // const translate = await axios.post("http://localhost:8000/", {
+    //   jsonData: htoj.data.jsonData,
+    //   title: item.title,
+    // });
+    // console.log(response.data, translate);
     return res.status(200).json(
       data.items?.map((item) => ({
         ...item,
@@ -309,3 +332,81 @@ export const getArticlesFromRss = async (req, res) => {
     });
   }
 };
+
+export async function getPressReleasePIB(req, res) {
+  try {
+    if (!req.query.pib) {
+      return res.status(400).json({
+        status: "error",
+        message: "Invalid PIB",
+      });
+    }
+
+    const response = await parse(
+      `https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=${
+        pibs[req.query.pib]
+      }`
+    );
+    const data = JSON.parse(JSON.stringify(response, null, 3));
+
+    return res.status(200).json(data.items);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: "error",
+      message: error,
+    });
+  }
+}
+
+export async function getPhotosPIB(req, res) {
+  try {
+    if (!req.query.pib) {
+      return res.status(400).json({
+        status: "error",
+        message: "Invalid PIB",
+      });
+    }
+
+    const response = await parse(
+      `https://pib.gov.in/RssMain.aspx?ModId=8&Lang=1&Regid=${
+        pibs[req.query.pib]
+      }`
+    );
+    const data = JSON.parse(JSON.stringify(response, null, 3));
+
+    return res.status(200).json(data.items);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: "error",
+      message: error,
+    });
+  }
+}
+
+export async function getMediaInvitationPIB(req, res) {
+  try {
+    if (!req.query.pib) {
+      return res.status(400).json({
+        status: "error",
+        message: "Invalid PIB",
+      });
+    }
+
+    const response = await parse(
+      `https://pib.gov.in/RssMain.aspx?ModId=10&Lang=1&Regid=${
+        pibs[req.query.pib]
+      }`
+    );
+    const data = JSON.parse(JSON.stringify(response, null, 3));
+
+    return res.status(200).json(data.items);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: "error",
+      message: error,
+    });
+  }
+}

@@ -2,6 +2,21 @@ import axios from "axios";
 import xml2js from "xml2js";
 import some from "rss-to-json";
 
+function pibDetail() {}
+export const pibs = {
+  mumbai: "1",
+  delhi: "3",
+  hyderabad: "5",
+  chennai: "6",
+  chandigarh: "17",
+  kolkata: "19",
+  bengaluru: "20",
+  bhubaneswar: "21",
+  ahmamadabad: "22",
+  guwahati: "23",
+  thiruvanantpuram: "24",
+};
+
 const { parse } = some;
 async function getRealease() {
   const res = await parse(
@@ -13,4 +28,4 @@ async function getRealease() {
   console.log(response.data);
 }
 
-getRealease();
+// getRealease();
