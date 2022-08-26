@@ -40,7 +40,7 @@ export async function createArticle(req, res) {
       _id: uuid(),
       title: req.body.title,
       body: req.body.body,
-      status: req.body.status,
+      status: req.body.status || "article",
       createdAt: new Date().toISOString(),
       publishedBy: {
         id: "req.user._id",
