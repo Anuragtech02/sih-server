@@ -38,8 +38,8 @@ export async function createArticle(req, res) {
     };
     const notification = await NotificationModel.create({
       _id: uuid(),
-      title: req.body.title,
-      body: req.body.body,
+      title: "New Press Release",
+      body: Article.title,
       status: req.body.status || "article",
       createdAt: new Date().toISOString(),
       publishedBy: {
