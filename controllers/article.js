@@ -4,7 +4,7 @@ import UserModel from "../models/User.model.js";
 import axios from "axios";
 import xml2js from "xml2js";
 import some from "rss-to-json";
-import createNotification from "./notification.js";
+import { createNotification } from "./notification.js";
 
 const { parse } = some;
 
@@ -21,7 +21,7 @@ export async function createArticle(req, res) {
       id: Article._id,
     });
 
-    const tokens = await UserModel.find({}, {fcmToken: 1});
+    const tokens = await UserModel.find({}, { fcmToken: 1 });
     const message = {
       notification: {
         title: "New Press Release",
