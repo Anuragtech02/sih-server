@@ -37,16 +37,16 @@ export const createNotification = async (req, res) => {
     });
   }
   const { title, body } = req.body;
+  const tokens = await UserModel.find({}, { fcmToken: 1 });
+    const tokensArray = tokens
+      .map((token) => token.fcmToken)
+      .filter((token) => token !== null && token !== undefined);
   try {
     const message = {
       notification: {
         ...req.body,
       },
-      tokens: [
-        "c-n6Rsg9SX2ziISDz-rDXP:APA91bEr9wxno3GXKZw1AS3a1A9bEEou8aWclKwuInE3bRZUWxYUBDQevSlRrLsEe3uzakolB_k3qkIoMV8bDr4ipcuOjaICdnUaWj0hkcn6ydxLV2_WREPxQ5Jm1nIzMoh9GJhUcSk_",
-        "fF0kZlhFTq6Dz27G69SII-:APA91bEeKjxDsMcN8o7p06KMmqDyza_M5YRXavQ-TKu7WbKnBaYlGznZTuTfVpJ1g67IJyw72jWdflJyh3vwZBSR1uv3vS939U0DFHSqbk8XCs_EW-ircm5jTKePya__w-vNZMaSnGTZ",
-        "ciBJpI-MRwm94xBTAsXLrl:APA91bG0El_8Lfu98Y1rFUqAA_FrqgywEfPv23zl8fiOzeSc1iqQeK_4obC3AUkcNO9tukpHlQ6nZqoA3GBZBLqLgoMJ5fs9WUA8Xrwwo6-4jht01lSgyLuCDvNf8DSc_hm_zc2XmFy1",
-      ],
+      tokens:tokensArray,
     };
     // const notification = await NotificationModel.create({
     //   _id: uuid(),
