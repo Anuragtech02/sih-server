@@ -17,6 +17,10 @@ export async function createArticle(req, res) {
     const Article = await ArticleModel.create({
       ...req.body,
       _id: `${uuid().replace(/-/g, "_")}`,
+      createdBy: req.body.createdBy || {
+        id: "ADMIN_PIB",
+        userType: "admin",
+      },
     });
     const translate = axios.post("https://translator-sih-2022.herokuapp.com/", {
       sentence: req.body.content.en,
@@ -50,7 +54,6 @@ export async function createArticle(req, res) {
       publishedBy: {
         id: "req.user._id",
         userType: "admin",
-        _id: false,
       },
     });
     const response = await admin.messaging().sendMulticast(message);
@@ -280,6 +283,18 @@ export const getArticlesFromRss = async (req, res) => {
       "https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3"
     );
     const data = JSON.parse(JSON.stringify(feed, null, 3));
+    const item = data.items[0];
+    console.log(item);
+    const htoj = await axios.post("http://localhost:8080/", {
+      title: item.title,
+      link: item.link,
+    });
+    console.log(htoj.data);
+    const translate = await axios.post("http://localhost:8000/", {
+      jsonData: htoj.data.jsonData,
+      title: item.title,
+    });
+    console.log(response.data, translate);
     return res.status(200).json(
       data.items?.map((item) => ({
         ...item,
