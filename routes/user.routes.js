@@ -6,6 +6,7 @@ import {
   deleteUser,
   updateUser,
   getSingleData,
+  getLeaderboard,
 } from "../controllers/user.js";
 // import auth from "../middleware/auth.js";
 const router = express.Router();
@@ -16,5 +17,6 @@ router.post("/create", createUser); // to create new user
 router.delete("/:id", deleteUser); // to delete user
 router.patch("/:id", updateUser); // to update user info
 router.get("/single", getSingleData);
+router.get("/leaderboard", getLeaderboard);
 
 export default router;
