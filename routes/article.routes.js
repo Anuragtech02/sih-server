@@ -12,6 +12,7 @@ import {
   getPressReleasePIB,
   getMediaInvitationPIB,
   getPhotosPIB,
+  getPressReleasePIBbyDate,
 } from "../controllers/article.js";
 
 const router = express.Router();
@@ -26,7 +27,7 @@ router.patch("/likes", updateArticleLikes);
 router.patch("/views", updateArticleViews);
 router.get("/rss", getArticlesFromRss);
 router.get("/rss-releases", getPressReleasePIB);
-router.get("/rss-media", getMediaInvitationPIB);
 router.get("/rss-photos", getPhotosPIB);
+router.get("/rss-releases-bydate", getPressReleasePIBbyDate);
 
 export default router;

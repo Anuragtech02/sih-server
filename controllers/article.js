@@ -8,6 +8,7 @@ import { createNotification } from "./notification.js";
 import NotificationModel from "../models/Notification.model.js";
 import admin from "firebase-admin";
 import { pibs } from "../utils/index.js";
+import MediaInvitationModel from "../models/MediaInvitation.model.js";
 
 const { parse } = some;
 
@@ -283,6 +284,7 @@ export async function htoJ(item) {
   return await axios.post("https://htmltojson.herokuapp.com/", {
     title: item.title,
     link: item.link,
+    pib: item.pib,
   });
 }
 
@@ -290,21 +292,26 @@ export async function translate(item) {
   return await axios.post("https://sih-translate-rss.herokuapp.com/", {
     title: item.title,
     jsonData: item.jsonData,
+    pib: item.pib,
   });
 }
 
 export const getArticlesFromRss = async (req, res) => {
   try {
     const feed = await parse(
-      "https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=3"
+      `https://pib.gov.in/RssMain.aspx?ModId=6&Lang=1&Regid=${req.query.pib}`
     );
     const data = JSON.parse(JSON.stringify(feed, null, 3));
     console.log(data);
-    const htojPromises = data.items.slice(3, 6).map((item) => htoJ(item));
+    const htojPromises = data.items
+      .slice(0, 3)
+      .map((item) => htoJ({ ...item, pib: req.query.pib }));
     console.log(htojPromises);
     const dataJsons = await Promise.all(htojPromises);
     console.log(dataJsons.map((it) => it.data));
-    const translatePromises = dataJsons.map((item) => translate(item.data));
+    const translatePromises = dataJsons.map((item) =>
+      translate({ ...item.data, pib: req.query.pib })
+    );
     const allRes = await Promise.all(translatePromises);
     console.log(allRes);
     // console.log(item);
@@ -358,8 +365,7 @@ export async function getPressReleasePIB(req, res) {
     });
   }
 }
-
-export async function getPhotosPIB(req, res) {
+export async function getPressReleasePIBbyDate(req, res) {
   try {
     if (!req.query.pib) {
       return res.status(400).json({
@@ -367,12 +373,29 @@ export async function getPhotosPIB(req, res) {
         message: "Invalid PIB",
       });
     }
+    if (!req.query.range) {
+      return res.status(400).json({
+        status: "error",
+        message: "Invalid Date",
+      });
+    }
 
-    const response = await parse(
-      `https://pib.gov.in/RssMain.aspx?ModId=8&Lang=1&Regid=${
-        pibs[req.query.pib]
-      }`
-    );
+    const range = req.query.range; // today | last week | last month
+
+    // const today = new Date().getDate() + new Date().getMonth() + new Date().getFullYear();
+
+    const response = ArticleModel.find({
+      pib: req.query.pib,
+      createdAt: {
+        $gte:
+          range === "today"
+            ? ISODate(new Date().toISOString())
+            : range === "lastWeek"
+            ? ISODate(new Date().toISOString()) - 7
+            : ISODate(new Date().toISOString()) - 30,
+      },
+    });
+
     const data = JSON.parse(JSON.stringify(response, null, 3));
 
     return res.status(200).json(data.items);
@@ -385,7 +408,7 @@ export async function getPhotosPIB(req, res) {
   }
 }
 
-export async function getMediaInvitationPIB(req, res) {
+export async function getPhotosPIB(req, res) {
   try {
     if (!req.query.pib) {
       return res.status(400).json({
@@ -395,7 +418,7 @@ export async function getMediaInvitationPIB(req, res) {
     }
 
     const response = await parse(
-      `https://pib.gov.in/RssMain.aspx?ModId=10&Lang=1&Regid=${
+      `https://pib.gov.in/RssMain.aspx?ModId=8&Lang=1&Regid=${
         pibs[req.query.pib]
       }`
     );
