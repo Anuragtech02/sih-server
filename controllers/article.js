@@ -55,7 +55,7 @@ export async function createArticle(req, res) {
     });
     const response = await admin.messaging().sendMulticast(message);
     console.log("Successfully sent message:", response);
-    // console.log(response.responses[0].error);
+    console.log(response.responses[0].error);
     // createNotification(
     //   {
     //     title: "New Article Published",
