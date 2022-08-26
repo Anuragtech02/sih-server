@@ -32,7 +32,7 @@ export async function createArticle(req, res) {
       notification: {
         title: "New Press Release",
         body: Article.title,
-        thumbnail: Article.thumbnail,
+        image: Article.thumbnail,
       },
       // tokens: [
       //   "c-n6Rsg9SX2ziISDz-rDXP:APA91bEr9wxno3GXKZw1AS3a1A9bEEou8aWclKwuInE3bRZUWxYUBDQevSlRrLsEe3uzakolB_k3qkIoMV8bDr4ipcuOjaICdnUaWj0hkcn6ydxLV2_WREPxQ5Jm1nIzMoh9GJhUcSk_",
@@ -55,7 +55,7 @@ export async function createArticle(req, res) {
     });
     const response = await admin.messaging().sendMulticast(message);
     console.log("Successfully sent message:", response);
-    console.log(response.responses[0].error);
+    // console.log(response.responses[0].error);
     // createNotification(
     //   {
     //     title: "New Article Published",
