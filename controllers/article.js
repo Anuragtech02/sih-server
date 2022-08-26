@@ -43,19 +43,20 @@ export async function createArticle(req, res) {
       status: req.body.status,
       createdAt: new Date().toISOString(),
       publishedBy: {
-        id: req.user._id,
+        id: "req.user._id",
         userType: req.user.userType,
         _id: false,
       },
     });
     const response = await admin.messaging().sendMulticast(message);
-    createNotification(
-      {
-        title: "New Article Published",
-        body: Article.title,
-      },
-      res
-    );
+    console.log("Successfully sent message:", response);
+    // createNotification(
+    //   {
+    //     title: "New Article Published",
+    //     body: Article.title,
+    //   },
+    //   res
+    // );
     return res.status(201).json({
       status: "success article created",
       data: Article,
