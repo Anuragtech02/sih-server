@@ -46,7 +46,7 @@ export const createNotification = async (req, res) => {
       notification: {
         ...req.body,
       },
-      tokens:tokensArray,
+      tokens:[...new Set(tokensArray)],
     };
     // const notification = await NotificationModel.create({
     //   _id: uuid(),
