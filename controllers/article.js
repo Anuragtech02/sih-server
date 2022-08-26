@@ -280,14 +280,14 @@ export async function userSaveArticle(req, res) {
 }
 
 export async function htoJ(item) {
-  return await axios.post("http://localhost:8000/", {
+  return await axios.post("https://htmltojson.herokuapp.com/", {
     title: item.title,
     link: item.link,
   });
 }
 
 export async function translate(item) {
-  return await axios.post("http://localhost:8080/", {
+  return await axios.post("https://sih-translate-rss.herokuapp.com/", {
     title: item.title,
     jsonData: item.jsonData,
   });
