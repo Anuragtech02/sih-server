@@ -24,7 +24,9 @@ export async function createArticle(req, res) {
     });
 
     const tokens = await UserModel.find({}, { fcmToken: 1 });
-    const tokensArray = tokens.map((token) => token.fcmToken);
+    const tokensArray = tokens
+      .map((token) => token.fcmToken)
+      .filter((token) => token !== null && token !== undefined);
     console.log(tokens);
     const message = {
       notification: {
