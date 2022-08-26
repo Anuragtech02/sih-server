@@ -108,4 +108,16 @@ export const updateUserReward = async (req, res) => {
   }
 };
 
+export const getLeaderboard = async (req, res) => {
+  try {
+    const users = await UserModel.find(
+      {}, { rewardPoints: 1, _id : 1, name:1, contact:1 }
+    ).sort({ rewardPoints: -1 });
+      return res.status(200).json(users);
+  } catch (error){
+    res.status(404).json({ message: error.message });
+  }
+}
+
+
 export default router;
