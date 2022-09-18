@@ -15,7 +15,7 @@ const router = express.Router();
 router.get("/", getData); // to get all teachers data
 router.post("/create", createUser); // to create new user
 router.delete("/:id", deleteUser); // to delete user
-router.patch("/:id", updateUser); // to update user info
+router.patch("/update", updateUser); // to update user info
 router.get("/single", getSingleData);
 router.get("/leaderboard", getLeaderboard);
 
